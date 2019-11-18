@@ -1,0 +1,15 @@
+.sort_selected::after{
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: normal;
+    font-style: normal;
+    margin: 0px 0px 0px 10px;
+    display: inline-block;
+
+}
+p , label{
+    padding-left: 20px
+}
+p:hover{
+    background-color: #dce1e5
+}
