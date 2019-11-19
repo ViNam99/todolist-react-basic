@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
     this.state = {
       tasks: [],
-      isDisplayForm: false
+      isDisplayForm: false,
+      tasksEditing: null
     }
   }
   //Gán task sâu khi load 
@@ -32,10 +33,19 @@ class App extends Component {
 
   //Thay đổi trạng thái isDisplayForm 
   onChangeDisplayForm = () => {
-    const { isDisplayForm } = this.state
-    this.setState({
-      isDisplayForm: !isDisplayForm
-    })
+    const { isDisplayForm , tasksEditing} = this.state
+    if(isDisplayForm &&tasksEditing !== null ){
+      this.setState({
+        isDisplayForm:true,
+        tasksEditing:null
+      })
+    }else{
+      this.setState({
+        isDisplayForm: !isDisplayForm,
+        tasksEditing:false
+      })
+    }
+  
   }
   //Close Form in taskForm
   _onCloseForm = (value) => {
@@ -45,28 +55,43 @@ class App extends Component {
       })
     }
   }
+  _onShowForm = () => {
+    this.setState({
+      isDisplayForm: true
+    })
+  }
   // Thêm mới một công việc
   _onAddTask = (data) => {
-    data.id = this.generateID()
+
     let { tasks } = this.state
-    tasks.push(data)
+    if (data.id === '') {
+      //Trường hợp thêm
+      data.id = this.generateID()
+      tasks.push(data)
+    } else {
+      //Trường hợp sửa
+      let index = this.findIndex(data.id);
+      tasks[index] = data
+    }
+
     this.setState({
-      tasks: tasks
+      tasks: tasks,
+      tasksEditing: null
     })
 
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }
-     //Tìm vị trí 
-     findIndex = (id) => {
-      let { tasks } = this.state
-      let result = -1;
-      tasks.forEach((task, index) => {
-        if (task.id === id) {
-          result = index
-        }
-      })
-      return result;
-    }
+  //Tìm vị trí 
+  findIndex = (id) => {
+    let { tasks } = this.state
+    let result = -1;
+    tasks.forEach((task, index) => {
+      if (task.id === id) {
+        result = index
+      }
+    })
+    return result;
+  }
 
   //Thay đổi trạng thái
   _onChangeStatus = (id) => {
@@ -81,30 +106,41 @@ class App extends Component {
     }
 
   }
- 
+
   //Xóa một công việc
   _onDeleteTask = (id) => {
-    let {tasks} = this.state
+    let { tasks } = this.state
     let index = this.findIndex(id)
-    if(index !== -1) {
-      tasks.splice(index , 1);
+    if (index !== -1) {
+      tasks.splice(index, 1);
       this.setState({
         tasks
       })
-      localStorage.setItem('tasks' , JSON.stringify(tasks))
-    } 
+      localStorage.setItem('tasks', JSON.stringify(tasks))
+    }
   }
 
-
+  _onUpdateTask = (id) => {
+    const { tasks } = this.state;
+    let index = this.findIndex(id);
+    let tasksEditing = tasks[index]
+    if (index !== -1) {
+      this.setState({
+        tasksEditing
+      })
+      this._onShowForm()
+    }
+  }
 
   render() {
-    const { tasks, isDisplayForm } = this.state
+    const { tasks, isDisplayForm, tasksEditing } = this.state
 
 
 
     let elmTaskForm = isDisplayForm ? <TaskForm
       onCloseFormApp={this._onCloseForm}
       onAddTaskApp={this._onAddTask}
+      tasksEditing={tasksEditing}
     ></TaskForm> : ''
     return (
       <div className="App">
@@ -132,7 +168,8 @@ class App extends Component {
                   <List
                     tasksApp={tasks}
                     onChangeStatusApp={this._onChangeStatus}
-                    onDeleteTaskApp = {this._onDeleteTask}
+                    onDeleteTaskApp={this._onDeleteTask}
+                    onUpdateTaskApp={this._onUpdateTask}
                   />
                 </div>
               </div>

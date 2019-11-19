@@ -12,6 +12,10 @@ class Item extends Component {
         this.props.onDeleteTaskList(taskList.id)
     }
   
+    _onUpdateTask = () => {
+        const {taskList} = this.props
+        this.props.onUpdateTaskList(taskList.id)
+    }
     render() {
         const { taskList, index } = this.props        
         return (
@@ -26,7 +30,7 @@ class Item extends Component {
                     </span>
                 </td>
                 <td className="text-center">
-                    <button type="submit" className="btn btn-warning" >
+                    <button type="submit" className="btn btn-warning" onClick = {this._onUpdateTask}>
                         <span className="fas fa-pen">&nbsp; Sửa</span>
                     </button> &nbsp;
                         <button type="submit" className="btn btn-danger">

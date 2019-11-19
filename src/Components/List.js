@@ -10,6 +10,10 @@ class List extends Component {
     _onDeleteTask = (id) => {
         this.props.onDeleteTaskApp(id)
     }
+
+    _onUpdateTask = (id) =>{
+        this.props.onUpdateTaskApp(id)
+    }
     render() {
         const { tasksApp } = this.props
 
@@ -20,6 +24,7 @@ class List extends Component {
                 index = {index}
                 onChangeStatusList = {this._onChangeStatus}
                 onDeleteTaskList = {this._onDeleteTask}
+                onUpdateTaskList = {this._onUpdateTask}
                 >
                 </Item>
             );
