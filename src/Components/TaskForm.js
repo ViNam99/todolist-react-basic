@@ -27,7 +27,17 @@ class TaskForm extends Component {
 
     _onHandleSubmit = (e) => {
         e.preventDefault();
-        this.props.onAddTaskApp(this.state)
+        this.props.onAddTaskApp(this.state);
+
+        //Sau khi thêm sẽ hủy bỏ cái trường đã nhập
+        this._onClear()
+    }
+
+    _onClear = () =>{
+        this.setState({
+            taskName : '',
+            status : false
+        })
     }
     render() {
         const {taskName , status} = this.state
@@ -68,7 +78,7 @@ class TaskForm extends Component {
                             <button type="submit" className="btn btn-danger" >
                                 <span className="fas fa-download">&nbsp;  Lưu lại</span>
                             </button> &nbsp;
-                            <button type="button" className="btn btn-primary" 
+                            <button type="button" className="btn btn-primary"  onClick = {this._onClear}
                             >
                                 <span className="fas fa-times"> &nbsp;Hủy bỏ</span>
                             </button>
