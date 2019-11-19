@@ -15,17 +15,17 @@ class App extends Component {
 generateData = () => {
   let tasks = [
     {
-      id: 1,
+      id: this.generateID(),
       taskName:'học lập trình',
       status : true
     },
     {
-      id: 2,
+      id: this.generateID(),
       taskName:'học English',
       status : true
     },
     {
-      id: 3,
+      id: this.generateID(),
       taskName:'ngủ',
       status : false
     }
@@ -42,6 +42,12 @@ componentDidMount() {
       tasks : tasksObj
     })
   }
+}
+s4() {
+  return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+}
+generateID() {
+  return this.s4() + this.s4() + '-' + this.s4() + this.s4() + '-' + this.s4() + this.s4() + '-' + this.s4() + this.s4() + '-' + this.s4();
 }
   render() {
     const {tasks} = this.state
