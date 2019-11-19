@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import './Item.css'
 class Item extends Component {
     render() {
+        const { taskList, index } = this.props        
         return (
             <tr>
-                <td></td>
-                <td></td>
+                <td>{index}</td>
+                <td>{taskList.taskName}</td>
                 <td className="text-center">
-                    <span className='label label-success'
+                    <span className={taskList.status === true ? 'label label-success' : 'label label-danger'}
                     >
+                        {taskList.status === true ? 'Kích hoạt' : 'Ẩn'}
                     </span>
                 </td>
                 <td className="text-center">

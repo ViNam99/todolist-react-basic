@@ -4,7 +4,17 @@ import Item from './Item';
 class List extends Component {
 
     render() {
+        const { tasksApp } = this.props
 
+        let elmTask = tasksApp.map((task, index) => {
+            return (
+                <Item key={index}
+                taskList = {task}
+                index = {index}
+                >
+                </Item>
+            );
+        })
         return (
             <div className="List">
                 <table className="table  table-bordered">
@@ -36,9 +46,9 @@ class List extends Component {
                                 </select>
 
                             </td>
-                            <td></td>
+                         
                         </tr>
-
+                        {elmTask}
                     </tbody>
                 </table>
             </div>
