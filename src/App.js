@@ -56,6 +56,17 @@ class App extends Component {
 
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }
+     //Tìm vị trí 
+     findIndex = (id) => {
+      let { tasks } = this.state
+      let result = -1;
+      tasks.forEach((task, index) => {
+        if (task.id === id) {
+          result = index
+        }
+      })
+      return result;
+    }
 
   //Thay đổi trạng thái
   _onChangeStatus = (id) => {
@@ -70,17 +81,21 @@ class App extends Component {
     }
 
   }
-  //Tìm vị trí cập nhật Status
-  findIndex = (id) => {
-    let { tasks } = this.state
-    let result = -1;
-    tasks.forEach((task, index) => {
-      if (task.id === id) {
-        result = index
-      }
-    })
-    return result;
+ 
+  //Xóa một công việc
+  _onDeleteTask = (id) => {
+    let {tasks} = this.state
+    let index = this.findIndex(id)
+    if(index !== -1) {
+      tasks.splice(index , 1);
+      this.setState({
+        tasks
+      })
+      localStorage.setItem('tasks' , JSON.stringify(tasks))
+    } 
   }
+
+
 
   render() {
     const { tasks, isDisplayForm } = this.state
@@ -117,6 +132,7 @@ class App extends Component {
                   <List
                     tasksApp={tasks}
                     onChangeStatusApp={this._onChangeStatus}
+                    onDeleteTaskApp = {this._onDeleteTask}
                   />
                 </div>
               </div>

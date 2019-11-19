@@ -6,6 +6,11 @@ class Item extends Component {
         this.props.onChangeStatusList(taskList.id)
         
     }
+
+    _onDeleteTask = () => {
+        const { taskList } = this.props    
+        this.props.onDeleteTaskList(taskList.id)
+    }
   
     render() {
         const { taskList, index } = this.props        
@@ -25,7 +30,7 @@ class Item extends Component {
                         <span className="fas fa-pen">&nbsp; Sửa</span>
                     </button> &nbsp;
                         <button type="submit" className="btn btn-danger">
-                        <span className="fas fa-times" > &nbsp;Hủy bỏ</span>
+                        <span className="fas fa-times" onClick = {this._onDeleteTask}> &nbsp;Hủy bỏ</span>
                     </button>
                 </td>
             </tr>
