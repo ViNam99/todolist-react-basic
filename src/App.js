@@ -11,7 +11,11 @@ class App extends Component {
     this.state = {
       tasks: [],
       isDisplayForm: false,
-      tasksEditing: null
+      tasksEditing: null,
+      filter : {
+        name:'',
+        status : -1
+      }
     }
   }
   //Gán task sâu khi load 
@@ -132,11 +136,31 @@ class App extends Component {
     }
   }
 
+  _onFilter = (filterName , filterStatus) => {
+    filterStatus = parseInt(filterStatus , 10)
+    this.setState({
+      filter : {
+        name: filterName.toLowerCase(),
+        status:filterStatus
+      }
+    })
+  }
+
   render() {
-    const { tasks, isDisplayForm, tasksEditing } = this.state
+    let { tasks, isDisplayForm, tasksEditing , filter } = this.state
 
-
-
+    //Lọc table
+    if (filter) {
+      tasks = tasks.filter((task) => {
+        if (filter.status === -1) {
+          return task;
+        }
+        else {
+          return task.status === (filter.status === 1 ? true : false);
+        }
+      });
+    }
+  
     let elmTaskForm = isDisplayForm ? <TaskForm
       onCloseFormApp={this._onCloseForm}
       onAddTaskApp={this._onAddTask}
@@ -170,6 +194,7 @@ class App extends Component {
                     onChangeStatusApp={this._onChangeStatus}
                     onDeleteTaskApp={this._onDeleteTask}
                     onUpdateTaskApp={this._onUpdateTask}
+                    onFilterApp = {this._onFilter}
                   />
                 </div>
               </div>
