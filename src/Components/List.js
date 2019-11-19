@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import Item from './Item';
 
 class List extends Component {
-
+    _onChangeStatus = (id) => {
+        this.props.onChangeStatusApp(id)
+        
+    }
     render() {
         const { tasksApp } = this.props
 
@@ -11,6 +14,7 @@ class List extends Component {
                 <Item key={index}
                 taskList = {task}
                 index = {index}
+                onChangeStatusList = {this._onChangeStatus}
                 >
                 </Item>
             );

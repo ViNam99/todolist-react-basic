@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import './Item.css'
 class Item extends Component {
+    _onChangeStatus = ()=>{
+        const { taskList } = this.props    
+        this.props.onChangeStatusList(taskList.id)
+        
+    }
+  
     render() {
         const { taskList, index } = this.props        
         return (
@@ -9,6 +15,7 @@ class Item extends Component {
                 <td>{taskList.taskName}</td>
                 <td className="text-center">
                     <span className={taskList.status === true ? 'label label-success' : 'label label-danger'}
+                    onClick = {this._onChangeStatus}
                     >
                         {taskList.status === true ? 'Kích hoạt' : 'Ẩn'}
                     </span>

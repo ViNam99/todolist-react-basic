@@ -55,10 +55,38 @@ class App extends Component {
     })
 
     localStorage.setItem('tasks', JSON.stringify(tasks))
+  }
+
+  //Thay đổi trạng thái
+  _onChangeStatus = (id) => {
+    let { tasks } = this.state
+    let index = this.findIndex(id);
+    if (index !== -1) {
+      tasks[index].status = !tasks[index].status;
+      this.setState({
+        tasks
+      })
+      localStorage.setItem('tasks', JSON.stringify(tasks))
+    }
 
   }
+  //Tìm vị trí cập nhật Status
+  findIndex = (id) => {
+    let { tasks } = this.state
+    let result = -1;
+    tasks.forEach((task, index) => {
+      if (task.id === id) {
+        result = index
+      }
+    })
+    return result;
+  }
+
   render() {
     const { tasks, isDisplayForm } = this.state
+
+
+
     let elmTaskForm = isDisplayForm ? <TaskForm
       onCloseFormApp={this._onCloseForm}
       onAddTaskApp={this._onAddTask}
@@ -88,6 +116,7 @@ class App extends Component {
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <List
                     tasksApp={tasks}
+                    onChangeStatusApp={this._onChangeStatus}
                   />
                 </div>
               </div>
